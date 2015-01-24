@@ -56,6 +56,12 @@
   :ensure t
   :config (progn (sml/setup)))
 
+(use-package recentf
+  :ensure t
+  :config
+  (progn (recentf-mode 1)
+         (setq recentf-max-menu-items 1000)))
+
 (use-package projectile
   :ensure t
   :pin melpa-stable
