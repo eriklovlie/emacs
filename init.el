@@ -62,6 +62,16 @@
   (progn (recentf-mode 1)
          (setq recentf-max-menu-items 1000)))
 
+(use-package savehist
+  :ensure t
+  :config
+  (progn (savehist-mode 1)))
+
+(use-package saveplace
+  :ensure t
+  :config
+  (progn (setq-default save-place t)))
+
 (use-package projectile
   :ensure t
   :pin melpa-stable
