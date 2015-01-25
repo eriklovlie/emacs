@@ -42,7 +42,8 @@
   :ensure t)
 
 (use-package undo-tree
-  :ensure t)
+  :ensure t
+  :config (progn (global-undo-tree-mode)))
 
 (use-package ggtags
   :ensure t
@@ -56,6 +57,9 @@
 (use-package smart-mode-line
   :ensure t
   :config (progn (sml/setup)))
+
+(use-package smart-mode-line-powerline-theme
+  :ensure t)
 
 (use-package recentf
   :ensure t
