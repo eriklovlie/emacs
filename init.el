@@ -58,8 +58,10 @@
   :ensure t
   :config (progn (sml/setup)))
 
-(use-package smart-mode-line-powerline-theme
-  :ensure t)
+;; Only enable the powerline eye-candy when in graphics mode
+(when (display-graphic-p)
+  (use-package smart-mode-line-powerline-theme
+    :ensure t))
 
 (use-package recentf
   :ensure t
