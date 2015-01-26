@@ -83,3 +83,6 @@
   :ensure t
   :pin melpa-stable
   :config (progn (projectile-global-mode)))
+
+;; Enable nice shortcuts for windmove
+(windmove-default-keybindings)
