@@ -86,3 +86,7 @@
 
 ;; Enable nice shortcuts for windmove
 (windmove-default-keybindings)
+
+;; Remove trailing whitespace from c/c++ code
+;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
