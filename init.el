@@ -109,6 +109,9 @@
 ;; Column numbers are nice.
 (column-number-mode)
 
+;; Highlight current line
+(global-hl-line-mode)
+
 ;; Default c style is linux with 4 spaces for indentation.
 (setq c-default-style "linux"
       c-basic-offset 4)
