@@ -24,7 +24,8 @@
  '(custom-safe-themes
    (quote
     ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
- '(desktop-save-mode t))
+ '(desktop-save-mode t)
+ '(safe-local-variable-values (quote ((c-default-style . "linux")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -49,14 +50,16 @@
   :ensure t
   :config
   (progn
-    (add-hook 'c-mode-common-hook
-          (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-              (ggtags-mode 1))))))
+    (add-hook
+     'c-mode-common-hook
+     (lambda ()
+       (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+         (ggtags-mode 1))))))
 
 (use-package smart-mode-line
   :ensure t
-  :config (progn (sml/setup)))
+  :config
+  (progn (sml/setup)))
 
 ;; Only enable the powerline eye-candy when in graphics mode
 (when (display-graphic-p)
@@ -84,9 +87,28 @@
   :pin melpa-stable
   :config (progn (projectile-global-mode)))
 
+(use-package fill-column-indicator
+  :ensure t
+  :config
+  (progn (setq fci-rule-color "gray")))
+
 ;; Enable nice shortcuts for windmove
 (windmove-default-keybindings)
 
 ;; Remove trailing whitespace from c/c++ code
 ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+(add-hook 'c-mode-hook
+          (lambda () (add-to-list
+                      'write-file-functions
+                      'delete-trailing-whitespace)))
+
+;; Enable C-c o for switching between header and implementation.
+(add-hook 'c-mode-common-hook
+          (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
+
+;; Column numbers are nice.
+(column-number-mode)
+
+;; Default c style is linux with 4 spaces for indentation.
+(setq c-default-style "linux"
+      c-basic-offset 4)
