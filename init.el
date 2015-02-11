@@ -106,6 +106,9 @@
 (add-hook 'c-mode-common-hook
           (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
 
+;; Disable menu bar
+(menu-bar-mode -1)
+
 ;; Column numbers are nice.
 (column-number-mode)
 
