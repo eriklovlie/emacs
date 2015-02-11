@@ -118,3 +118,17 @@
 ;; Default c style is linux with 4 spaces for indentation.
 (setq c-default-style "linux"
       c-basic-offset 4)
+
+;; Smooth-ish scrolling.
+(setq scroll-conservatively 10000)
+
+;; Handy function for reverting all buffers (e.g. when switching git branches)
+;; Source: http://www.emacswiki.org/emacs/RevertBuffer#toc2
+(defun revert-all-buffers ()
+  "Refreshes all open buffers from their respective files."
+  (interactive)
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
+        (revert-buffer t t t) )))
+  (message "Refreshed open files.") )
