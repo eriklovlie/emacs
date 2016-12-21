@@ -21,9 +21,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
  '(desktop-save-mode t)
  '(safe-local-variable-values (quote ((c-default-style . "linux")))))
 (custom-set-faces
@@ -92,15 +89,25 @@
   :config
   (progn (setq fci-rule-color "gray")))
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
+
+(use-package s
+  :pin melpa-stable
+  :ensure t)
+
+
 ;; Enable nice shortcuts for windmove
 (windmove-default-keybindings)
 
 ;; Remove trailing whitespace from c/c++ code
 ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'c-mode-hook
-          (lambda () (add-to-list
-                      'write-file-functions
-                      'delete-trailing-whitespace)))
+(add-hook 'c-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+(add-hook 'python-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+(add-hook 'tuareg-mode-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 ;; Enable C-c o for switching between header and implementation.
 (add-hook 'c-mode-common-hook
@@ -133,6 +140,19 @@
 
 ;; Disable buggy thing which sometimes starts pinging cocos island and indonesia...
 (setq ido-use-filename-at-point nil)
+
+;; Flycheck configuration.
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+
+;; Ocaml configuration.
+(load-file (format "%s/share/emacs/site-lisp/ocp-indent.el" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null"))))
+
+;; Company configuration.
+(push (apply-partially #'cl-remove-if
+                       (lambda (c)
+                         (or (string-match-p "[^\x00-\x7F]+" c) ;; remove non-ansi strings
+                             (string-match-p "^[0-9]+" c))))    ;; remove strings starting with numbers
+      company-transformers)
 
 ;; Handy function for reverting all buffers (e.g. when switching git branches)
 ;; Source: http://www.emacswiki.org/emacs/RevertBuffer#toc2
