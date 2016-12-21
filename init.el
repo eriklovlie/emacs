@@ -131,6 +131,9 @@
 ;; Smooth-ish scrolling.
 (setq scroll-conservatively 10000)
 
+;; Disable buggy thing which sometimes starts pinging cocos island and indonesia...
+(setq ido-use-filename-at-point nil)
+
 ;; Handy function for reverting all buffers (e.g. when switching git branches)
 ;; Source: http://www.emacswiki.org/emacs/RevertBuffer#toc2
 (defun revert-all-buffers ()
