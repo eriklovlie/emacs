@@ -30,9 +30,6 @@
  ;; If there is more than one, they won't work right.
  )
 
-(use-package graphene
-  :ensure t)
-
 (use-package magit
   :ensure t)
 
@@ -42,6 +39,10 @@
 (use-package undo-tree
   :ensure t
   :config (progn (global-undo-tree-mode)))
+
+(use-package ido
+  :ensure t
+  :config (progn (ido-mode t)))
 
 (use-package ggtags
   :ensure t
@@ -63,22 +64,6 @@
   (use-package smart-mode-line-powerline-theme
     :ensure t))
 
-(use-package recentf
-  :ensure t
-  :config
-  (progn (recentf-mode 1)
-         (setq recentf-max-menu-items 1000)))
-
-(use-package savehist
-  :ensure t
-  :config
-  (progn (savehist-mode 1)))
-
-(use-package saveplace
-  :ensure t
-  :config
-  (progn (setq-default save-place t)))
-
 (use-package projectile
   :ensure t
   :pin melpa-stable
@@ -99,6 +84,31 @@
   :pin melpa-stable
   :ensure t)
 
+(use-package company
+  :ensure t
+  :defer t
+  :init (global-company-mode)
+  :config
+  (progn
+    ;; Use Company for completion
+    (bind-key [remap completion-at-point] #'company-complete company-mode-map)
+
+    ;; Disable silly completions
+    (push (apply-partially #'cl-remove-if
+                         (lambda (c)
+                         (or (string-match-p "[^\x00-\x7F]+" c) ;; remove non-ansi strings
+                             (string-match-p "^[0-9]+" c))))    ;; remove strings starting with numbers
+      company-transformers)
+  )
+)
+
+;; Languages
+(use-package tuareg-mode
+  :ensure t)
+
+
+;; Show matching parens
+(show-paren-mode 1)
 
 ;; Enable nice shortcuts for windmove
 (windmove-default-keybindings)
@@ -125,6 +135,9 @@
 ;; Disable menu bar
 (menu-bar-mode -1)
 
+;; Disable tool bar
+(tool-bar-mode -1)
+
 ;; Column numbers are nice.
 (column-number-mode)
 
@@ -141,18 +154,9 @@
 ;; Disable buggy thing which sometimes starts pinging cocos island and indonesia...
 (setq ido-use-filename-at-point nil)
 
-;; Flycheck configuration.
-(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-
 ;; Ocaml configuration.
+(load-file (format "%s/share/emacs/site-lisp/tuareg-site-file.el" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null"))))
 (load-file (format "%s/share/emacs/site-lisp/ocp-indent.el" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null"))))
-
-;; Company configuration.
-(push (apply-partially #'cl-remove-if
-                       (lambda (c)
-                         (or (string-match-p "[^\x00-\x7F]+" c) ;; remove non-ansi strings
-                             (string-match-p "^[0-9]+" c))))    ;; remove strings starting with numbers
-      company-transformers)
 
 ;; Handy function for reverting all buffers (e.g. when switching git branches)
 ;; Source: http://www.emacswiki.org/emacs/RevertBuffer#toc2
