@@ -154,16 +154,27 @@
 ;; Highlight current line
 (global-hl-line-mode)
 
+;; Auto-revert files changed by an external program.
+(global-auto-revert-mode 1)
+
 ;; Default c style is linux with 4 spaces for indentation.
 (setq c-default-style "linux"
       c-basic-offset 4)
+
+;; Enable dir-locals for tramp files.
+(setq enable-remote-dir-locals t)
 
 ;; Smooth-ish scrolling.
 (setq scroll-conservatively 10000)
 
 ;; Ocaml configuration.
-(load-file (format "%s/share/emacs/site-lisp/tuareg-site-file.el" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null"))))
-(load-file (format "%s/share/emacs/site-lisp/ocp-indent.el" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null"))))
+ (push
+  (format "%s/share/emacs/site-lisp" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null")))
+  load-path)
+(require 'ocp-indent)
+(autoload 'merlin-mode "merlin" "Merlin mode" t)
+(add-hook 'tuareg-mode-hook 'merlin-mode)
+(add-hook 'caml-mode-hook 'merlin-mode)
 
 ;; Handy function for reverting all buffers (e.g. when switching git branches)
 ;; Source: http://www.emacswiki.org/emacs/RevertBuffer#toc2
