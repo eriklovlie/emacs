@@ -31,7 +31,8 @@
  )
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config (global-set-key (kbd "C-x g") 'magit-status))
 
 (use-package zenburn-theme
   :ensure t)
