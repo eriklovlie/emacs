@@ -102,11 +102,6 @@
   )
 )
 
-;; Languages
-(use-package tuareg-mode
-  :ensure t)
-
-
 ;; Show matching parens
 (show-paren-mode 1)
 
