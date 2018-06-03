@@ -75,6 +75,10 @@
   :ensure t
   :pin org)
 
+(use-package org-journal
+  :ensure t
+  :pin melpa-stable)
+
 (use-package fill-column-indicator
   :ensure t
   :config
