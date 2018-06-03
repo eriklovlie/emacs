@@ -4,6 +4,7 @@
 ;; Add the Melpa repository to the list of package sources
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;; Initialise the package system.
 (package-initialize)
@@ -32,7 +33,7 @@
 
 (use-package magit
   :ensure t
-  :config (global-set-key (kbd "C-x g") 'magit-status))
+  :bind ("C-x g" . 'magit-status))
 
 (use-package zenburn-theme
   :ensure t)
@@ -69,6 +70,10 @@
   :ensure t
   :pin melpa-stable
   :config (progn (projectile-global-mode)))
+
+(use-package org
+  :ensure t
+  :pin org)
 
 (use-package fill-column-indicator
   :ensure t
