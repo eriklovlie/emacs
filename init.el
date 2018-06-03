@@ -44,7 +44,12 @@
 
 (use-package ido
   :ensure t
-  :config (progn (ido-mode t)))
+  :config
+  (progn
+    (setq ido-use-filename-at-point nil)
+    (setq ido-enable-flex-matching t)
+    (setq ido-everywhere t)
+    (ido-mode 1)))
 
 (use-package ggtags
   :ensure t
@@ -155,9 +160,6 @@
 
 ;; Smooth-ish scrolling.
 (setq scroll-conservatively 10000)
-
-;; Disable buggy thing which sometimes starts pinging cocos island and indonesia...
-(setq ido-use-filename-at-point nil)
 
 ;; Ocaml configuration.
 (load-file (format "%s/share/emacs/site-lisp/tuareg-site-file.el" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null"))))
