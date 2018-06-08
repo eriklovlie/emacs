@@ -33,7 +33,12 @@
 
 (use-package magit
   :ensure t
-  :bind ("C-x g" . 'magit-status))
+  :bind ("C-x g" . magit-status))
+
+(use-package ace-window
+  :ensure t
+  :pin melpa-stable
+  :bind ("M-o" . ace-window))
 
 (use-package zenburn-theme
   :ensure t)
@@ -166,6 +171,8 @@
 
 ;; Smooth-ish scrolling.
 (setq scroll-conservatively 10000)
+
+(setq-default indent-tabs-mode nil)
 
 ;; Ocaml configuration.
  (push
