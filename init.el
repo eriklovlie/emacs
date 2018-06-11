@@ -147,11 +147,9 @@
 (define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
 (define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
 
-;; Disable menu bar
 (menu-bar-mode -1)
-
-;; Disable tool bar
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; Column numbers are nice.
 (column-number-mode)
