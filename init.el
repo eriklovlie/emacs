@@ -151,6 +151,9 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; Enable C-x C-j to jump to current file in a dired buffer.
+(require 'dired-x)
+
 ;; Column numbers are nice.
 (column-number-mode)
 
