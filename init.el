@@ -147,6 +147,15 @@
 (define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
 (define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
 
+;; https://www.masteringemacs.org/article/my-emacs-keybindings
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "<S-C-left>") 'shrink-window-horizontally)
+(global-set-key (kbd "<S-C-down>") 'shrink-window)
+(global-set-key (kbd "<S-C-right>") (lambda () (interactive) (shrink-window-horizontally -1)))
+(global-set-key (kbd "<S-C-up>") (lambda () (interactive) (shrink-window -1)))
+(global-set-key (kbd "<S-C-up>") (lambda () (interactive) (shrink-window -1)))
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -175,6 +184,9 @@
 
 (setq-default indent-tabs-mode nil)
 
+(setq-default history-length 1000)
+(savehist-mode t)
+
 ;; Ocaml configuration.
  (push
   (format "%s/share/emacs/site-lisp" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null")))
@@ -194,3 +206,11 @@
       (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
         (revert-buffer t t t) )))
   (message "Refreshed open files.") )
+
+;; https://www.masteringemacs.org/article/find-files-faster-recent-files-package
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
