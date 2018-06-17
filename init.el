@@ -187,6 +187,11 @@
 (setq-default history-length 1000)
 (savehist-mode t)
 
+;; REVISIT not entirely confident about this...
+;; Prevent compilation mode and grep mode from opening a strange amount of windows.
+(setq split-height-threshold nil)
+(setq split-width-threshold nil)
+
 ;; Ocaml configuration.
  (push
   (format "%s/share/emacs/site-lisp" (s-trim (shell-command-to-string "opam config var prefix 2> /dev/null")))
