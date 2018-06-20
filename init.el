@@ -83,11 +83,40 @@
 
 (use-package org
   :ensure t
-  :pin org)
-
-(use-package org-journal
-  :ensure t
-  :pin melpa-stable)
+  :bind ("M-q" . org-fill-paragraph)
+  :pin org
+  :config
+  (progn
+    (global-set-key (kbd "<f12>") 'org-agenda)
+    (global-set-key (kbd "C-c c") 'org-capture)
+    (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+    (setq org-agenda-window-setup (quote current-window))
+    (setq org-directory (quote "~/org/agenda"))
+    (setq org-agenda-files (quote ("~/org/agenda")))
+    (setq org-default-notes-file (concat org-directory "/refile.org"))
+    (setq org-completion-use-ido t)
+    ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+    (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                     (org-agenda-files :maxlevel . 9))))
+    ;; Use full outline paths for refile targets - we file directly with IDO
+    (setq org-refile-use-outline-path t)
+    ;; Targets complete directly with IDO
+    (setq org-outline-path-complete-in-steps nil)
+    ;; Allow refile to create parent tasks with confirmation
+    (setq org-refile-allow-creating-parent-nodes (quote confirm))
+    ;;set priority range from A to C with default A
+    (setq org-highest-priority ?A)
+    (setq org-lowest-priority ?C)
+    (setq org-default-priority ?A)
+    ;;set colours for priorities
+    (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+                               (?B . (:foreground "LightSteelBlue"))
+                               (?C . (:foreground "OliveDrab"))))
+    (setq org-capture-templates
+          '(("t" "todo" entry (file+headline "" "Tasks")
+             "* TODO [#A] %?")))
+    (setq org-log-done 'time)
+    ))
 
 (use-package fill-column-indicator
   :ensure t
@@ -122,6 +151,9 @@
   )
 )
 
+;; Macbook "command" key should be meta because it's next to "space" where alt normally is
+(setq ns-command-modifier (quote meta))
+
 ;; Show matching parens
 (show-paren-mode 1)
 
@@ -155,6 +187,9 @@
 (global-set-key (kbd "<S-C-up>") (lambda () (interactive) (shrink-window -1)))
 (global-set-key (kbd "<S-C-up>") (lambda () (interactive) (shrink-window -1)))
 (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+
+;; Org-mode tables are best without truncation, but prose looks best with.
+(global-set-key (kbd "<f1>") 'toggle-truncate-lines)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
