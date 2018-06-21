@@ -170,15 +170,6 @@
 (add-hook 'c-mode-common-hook
           (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
 
-;; Set ggtags keybindings
-(define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
-(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
-(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
-(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
-(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
-(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
-(define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
-
 ;; https://www.masteringemacs.org/article/my-emacs-keybindings
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "<S-C-left>") 'shrink-window-horizontally)
@@ -190,6 +181,8 @@
 
 ;; Org-mode tables are best without truncation, but prose looks best with.
 (global-set-key (kbd "<f1>") 'toggle-truncate-lines)
+;; Insert current time
+(global-set-key (kbd "<f2>") 'esel/now)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -238,7 +231,7 @@
 
 ;; Handy function for reverting all buffers (e.g. when switching git branches)
 ;; Source: http://www.emacswiki.org/emacs/RevertBuffer#toc2
-(defun revert-all-buffers ()
+(defun esel/revert-all-buffers ()
   "Refreshes all open buffers from their respective files."
   (interactive)
   (dolist (buf (buffer-list))
@@ -254,3 +247,8 @@
   (if (find-file (ido-completing-read "Find recent file: " recentf-list))
       (message "Opening file...")
     (message "Aborting")))
+
+(defun esel/now ()
+  "Insert string for the current time formatted like '[HH:MM]'."
+  (interactive)
+  (insert (format-time-string "[%H:%M] ")))
